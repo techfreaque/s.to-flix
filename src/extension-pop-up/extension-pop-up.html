@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Sovendus Integration Tester</title>
+  <script src="/extension-pop-up/extension-pop-up.js" type="module"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      width: 300px
+    }
+
+    h1 {
+      font-size: 24px;
+      color: #333;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .setting-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .setting-label {
+      font-size: 18px;
+      color: #333;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked+.slider {
+      background-color: #4CAF50;
+    }
+
+    input:checked+.slider:before {
+      transform: translateX(26px);
+    }
+
+    input[type="number"] {
+      width: 60px;
+      padding: 5px;
+      font-size: 16px;
+      text-align: right;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-left: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>s.to flix settings</h1>
+
+  <div class="switch-container">
+    <span class="switch-label">Auto play:</span>
+    <label class="switch">
+      <input type="checkbox" id="autoPlay">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="switch-container">
+    <span class="switch-label">Auto load next episode:</span>
+    <label class="switch">
+      <input type="checkbox" id="autoLoadNextEpisode">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="switch-container">
+    <span class="switch-label">Auto pause:</span>
+    <label class="switch">
+      <input type="checkbox" id="autoPause">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="setting-container">
+    <span class="setting-label">Auto pause inactivity:</span>
+    <input type="number" id="autoPauseInactivity" min="0" max="100">
+  </div>
+</body>
+
+</html>

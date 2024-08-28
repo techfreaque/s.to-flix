@@ -1,0 +1,54 @@
+{
+  "name": "s.to flix",
+  "version": "1.6.2",
+  "manifest_version": 3,
+  "description": "Use this extension to verify if your Sovendus integration is setup properly",
+  "background": {
+    "scripts": [
+      "page-banner/service-worker.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "page-banner/iframe-script.js"
+      ],
+      "all_frames": true,
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": [
+    "scripting",
+    "webNavigation",
+    "storage"
+  ],
+  "action": {
+    "default_popup": "extension-pop-up/extension-pop-up.html"
+  },
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "/page-banner/self-test-overlay.js",
+        "/page-banner/self-tester.js",
+        "/page-banner/self-tester-data-to-sync-with-dev-hub.js",
+        "/page-banner/self-test-overlay-css-vars.js",
+        "/npm/@floating-ui/core@1.6.7/+esm.js",
+        "/npm/@floating-ui/dom@1.6.10/+esm.js",
+        "/npm/@floating-ui/utils@0.2.7/+esm.js",
+        "/npm/@floating-ui/utils@0.2.7/dom/+esm.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "icons": {
+    "128": "s.to.png"
+  }
+}

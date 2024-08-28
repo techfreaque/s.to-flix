@@ -1,0 +1,42 @@
+{
+  "name": "integration-tester-browser-extension",
+  "version": "1.0.0",
+  "description": "Sovendus integration tester chrome & firefox extensions",
+  "type": "commonjs",
+  "scripts": {
+    "build": "npm run build-ts && npm run copy-files && npm run zip-builds",
+    "build-ts": "npm run clean && tsc --build",
+    "soft-build": "tsc --build && npm run copy-files",
+    "debug-on-ff": "cd build/firefox && web-ext run",
+    "clean": "rimraf build",
+    "lint": "eslint src/**/*.ts --no-ignore --fix",
+    "copy-files": "cpy src/extension-pop-up/extension-pop-up.html build/chrome/extension-pop-up/ --flat && cpy src/s.to.png build/chrome/ --flat && npm run copy-to-ff && npm run copy-browser-specific-files",
+    "copy-src": "cpy src/page-banner/*.ts build/chrome/src/page-banner/",
+    "copy-to-ff": "cpy build/chrome/**/* build/firefox",
+    "copy-browser-specific-files": "cpy src/chrome/* build/chrome && cpy src/firefox/* build/firefox",
+    "zip-builds": "zip-build build/chrome release_zips -t 'chrome-test-sovendus-integration_%VERSION%_%TIMESTAMP%.%EXT%' && zip-build build/firefox release_zips -t 'firefox-test-sovendus-integration_%VERSION%_%TIMESTAMP%.%EXT%'"
+  },
+  "author": "Max Brandstaetter",
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+    "@types/chrome": "^0.0.260",
+    "@types/crypto-js": "^4.2.2",
+    "@types/firefox-webext-browser": "^120.0.0",
+    "@types/node": "20.0.0",
+    "@types/selenium-webdriver": "^4.1.24",
+    "cpy-cli": "^5.0.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-unused-imports": "^4.1.3",
+    "prettier": "^3.3.3",
+    "prettier-eslint": "^16.3.0",
+    "rimraf": "^5.0.5",
+    "ts-node": "^10.9.2",
+    "typescript-eslint": "^7.16.1",
+    "web-ext": "^8.2.0",
+    "zip-build": "^1.8.0"
+  }
+}

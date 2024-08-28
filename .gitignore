@@ -1,0 +1,7 @@
+release_zips
+node_modules
+build
+**/.DS_Store
+.env
+test_zips
+jest.config.js

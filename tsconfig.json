@@ -49,10 +49,10 @@
   },
   "include": [
     "src/",
-    "src/tests"
   ],
   "exclude": [
     "src/chrome",
-    "src/firefox"
+    "src/firefox",
+    "node_modules"
   ]
 }

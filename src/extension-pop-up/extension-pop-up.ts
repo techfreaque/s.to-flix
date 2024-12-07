@@ -5,51 +5,72 @@ document.addEventListener("DOMContentLoaded", () => {
     ?.addEventListener("change", () => autoSaveToggle("autoPlay"));
   document
     .getElementById("autoPauseInactivity")
-    ?.addEventListener("change", () => autoSaveNumber("autoPauseInactivity"));
+    ?.addEventListener("input", () => autoSaveNumber("autoPauseInactivity"));
   document
     .getElementById("autoLoadNextEpisode")
-    ?.addEventListener("input", () => autoSaveToggle("autoLoadNextEpisode"));
+    ?.addEventListener("change", () => autoSaveToggle("autoLoadNextEpisode"));
   document
     .getElementById("autoPause")
-    ?.addEventListener("input", () => autoSaveToggle("autoPause"));
+    ?.addEventListener("change", () => autoSaveToggle("autoPause"));
+  document
+    .getElementById("autoFullscreen")
+    ?.addEventListener("change", () => autoSaveToggle("autoFullscreen"));
 });
-// Function to load settings when the popup is opened
-function loadSettings(): void {
-  browserAPI.storage.sync.get(
-    ["autoPlay", "autoPauseInactivity", "autoLoadNextEpisode", "autoPause"],
-    (result) => {
-      (document.getElementById("autoPlay") as HTMLInputElement).checked =
-        result["autoPlay"] === undefined ? true : result["autoPlay"];
-      (
-        document.getElementById("autoLoadNextEpisode") as HTMLInputElement
-      ).checked =
-        result["autoPause"] === undefined ? true : result["autoPause"];
-      (document.getElementById("autoPause") as HTMLInputElement).checked =
-        result["autoPause"] === undefined ? true : result["autoPause"];
-      (
-        document.getElementById("autoPauseInactivity") as HTMLInputElement
-      ).value =
-        result["autoPauseInactivity"] === undefined
-          ? 60
-          : result["autoPauseInactivity"];
+function loadSettings() {
+  chrome.storage.local.get(
+    [
+      "autoPlay",
+      "autoPauseInactivity",
+      "autoLoadNextEpisode",
+      "autoPause",
+      "autoFullscreen",
+    ],
+    async (result) => {
+      if (!result) {
+        console.log("Result is empty");
+        return;
+      }
+      loadCheckBoxValue("autoPlay", true, result);
+      loadCheckBoxValue("autoLoadNextEpisode", true, result);
+      loadCheckBoxValue("autoPause", true, result);
+      loadCheckBoxValue("autoFullscreen", true, result);
+      loadInputValue("autoPauseInactivity", 60, result);
     },
   );
 }
 
-// Function to auto-save toggle switch settings
-function autoSaveToggle(elementId: string): void {
+function loadCheckBoxValue(
+  elementId: string,
+  defValue: boolean,
+  result: { [key: string]: boolean },
+): void {
+  (document.getElementById(elementId) as HTMLInputElement).checked =
+    result[elementId] === undefined ? defValue : result[elementId];
+  console.log("Loaded value:", elementId, result[elementId]);
+}
+
+function loadInputValue(
+  elementId: string,
+  defValue: number,
+  result: { [key: string]: number },
+): void {
+  (document.getElementById(elementId) as HTMLInputElement).value = String(
+    result[elementId] === undefined ? defValue : result[elementId],
+  );
+  console.log("Loaded value:", elementId, result[elementId]);
+}
+
+function autoSaveToggle(elementId: string) {
   const settingValue = (document.getElementById(elementId) as HTMLInputElement)
     .checked;
-  browserAPI.storage.sync.set({ [elementId]: settingValue }, () => {
+  chrome.storage.local.set({ [elementId]: settingValue }, () => {
     console.log(`${elementId} setting auto-saved`);
   });
 }
-
-// Function to auto-save number input settings
-function autoSaveNumber(elementId: string): void {
+function autoSaveNumber(elementId: string) {
   const settingValue = (document.getElementById(elementId) as HTMLInputElement)
     .value;
-  browserAPI.storage.sync.set({ [elementId]: settingValue }, () => {
+  chrome.storage.local.set({ [elementId]: settingValue }, () => {
     console.log(`${elementId} setting auto-saved`);
   });
 }
